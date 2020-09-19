@@ -12,7 +12,7 @@ Manual:
        2. `double getTemperature(String city, int days)`
        3. `double getHumidity(String city, int days)`
        4. `double getPressure(String city, int days)`
-       5. `double getWeather(String city, int days)`
+       5. `WeatherInformation getWeather(String city, int days)`
       W każdej z nich powinno zostać uruchomione odpowiednie API (być może to będzie po prostu zawsze to samo, bo będzie miało wszystkie informacje) do pobrania danej informacji
 4. W  WeatherMain wywołaj WeatherService, żeby pobrać pogodę i wyświetlić na początku działania aplikacji, umożliw użytkownikowi podanie danych (miasto i na za ile dni)
 5. Podepnij wymienione wyżej metody do akcji menu `wind`, `temperature`, `humidity`, `pressure`
