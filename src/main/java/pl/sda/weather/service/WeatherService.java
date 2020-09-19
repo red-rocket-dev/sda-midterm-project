@@ -27,12 +27,14 @@ public class WeatherService {
         return windInformation;
     }
 
-    public double getTemperature(String city) {
-        return 0;
+    public double getTemperature(String city) throws IOException, InterruptedException {
+        OpenWeatherResponse weather = httpClient.getWeather(city);
+        return weather.getMain().getTemp();
     }
 
-    public double getHumidity(String city) {
-        return 0;
+    public double getHumidity(String city) throws IOException, InterruptedException {
+        OpenWeatherResponse weather = httpClient.getWeather(city);
+        return weather.getMain().getHumidity();
     }
 
     public double getPressure(String city) throws IOException, InterruptedException {
@@ -40,7 +42,21 @@ public class WeatherService {
         return weather.getMain().getPressure();
     }
 
-    public WeatherInformation getWeather(String city) {
-        return null;
+    public WeatherInformation getWeather(String city) throws IOException, InterruptedException {
+        OpenWeatherResponse weather = httpClient.getWeather(city);
+        double temperature = weather.getMain().getTemp();
+        int humidity = weather.getMain().getHumidity();
+        int pressure = weather.getMain().getPressure();
+        double degrees = weather.getWind().getDeg();
+        double speed = weather.getWind().getSpeed();
+        WindInformation windInformation = new WindInformation();
+        windInformation.setForce(speed);
+        windInformation.setDegrees(degrees);
+        WeatherInformation weatherInformation = new WeatherInformation();
+        weatherInformation.setHumidity(humidity);
+        weatherInformation.setPressure(pressure);
+        weatherInformation.setTemperature(temperature);
+        weatherInformation.setWindInformation(windInformation);
+        return weatherInformation;
     }
 }

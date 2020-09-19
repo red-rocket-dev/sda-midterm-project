@@ -61,8 +61,8 @@ public class WeatherMain {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Witaj! Podaj miasto do pobrania pogody");
         WeatherService weatherService = new WeatherService();
-        String city = scanner.nextLine();
-        WeatherInformation weather = weatherService.getWeather(city);
+        String initialCity = scanner.nextLine();
+        WeatherInformation weather = weatherService.getWeather(initialCity);
 
         System.out.println("Temperatura " + weather.getTemperature());
         System.out.println("Wilgotnosc " + weather.getHumidity());
@@ -75,6 +75,9 @@ public class WeatherMain {
             choice = scanner.nextLine();
             switch (choice) {
                 case "temperature":
+                    System.out.println("Podaj miasto");
+                    String city = scanner.nextLine();
+                    System.out.println(weatherService.getTemperature(city));
                     break;
                 case "wind":
                     break;

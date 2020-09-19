@@ -12,4 +12,8 @@ public class UserDao {
         entityManager.persist(userEntity);
         entityManager.getTransaction().commit();
     }
+
+    public UserEntity findById(Long id) {
+
+    }
 }

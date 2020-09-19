@@ -1,5 +1,6 @@
 package pl.sda.weather.provider;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.sda.weather.provider.model.OpenWeatherResponse;
 
@@ -24,8 +25,8 @@ public class OpenWeatherMapHttpClient {
                 .build();
         String body = httpClient.send(currentWeatherRequest, HttpResponse.BodyHandlers.ofString())
                 .body();//do tego miejsca wszystko tak samo jak wyżej
-        ObjectMapper objectMapper = new ObjectMapper(); //tworzymy nowy obiekt mapper, coś co będzie nam konwertowało łańcuch znaków (JSON) na nasz obiekt OpenWeatherResponse, który wcześniej stworzyliśmy
-        //.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);// tym możemy wyłączyć rzucanie wyjątków w przypadku kiedy ObjectMapper natrafi w łańcuchu na pole, które nie ma odzwierciedlenia w klasie
+        ObjectMapper objectMapper = new ObjectMapper() //tworzymy nowy obiekt mapper, coś co będzie nam konwertowało łańcuch znaków (JSON) na nasz obiekt OpenWeatherResponse, który wcześniej stworzyliśmy
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);// tym możemy wyłączyć rzucanie wyjątków w przypadku kiedy ObjectMapper natrafi w łańcuchu na pole, które nie ma odzwierciedlenia w klasie
         return objectMapper.readValue(body, OpenWeatherResponse.class); // w końcu konwertujemy stringa na obiekt typu podanego w 2 argumencie (bez tego ObjectMapper nie wie na co zamienić tego Stringa)
     }
 }
