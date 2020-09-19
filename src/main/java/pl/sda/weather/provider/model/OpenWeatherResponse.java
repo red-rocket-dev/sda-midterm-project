@@ -1,10 +1,12 @@
 package pl.sda.weather.provider.model;
 
 
+import java.util.List;
+
 public class OpenWeatherResponse {
 
     private Coord coord;
-    private Weather[] weather;
+    private List<Weather> weather;
     private String base;
     private WeatherInfo main;
     private Wind wind;
@@ -25,11 +27,11 @@ public class OpenWeatherResponse {
         this.coord = coord;
     }
 
-    public Weather[] getWeather() {
+    public List<Weather> getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather[] weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
 
