@@ -3,6 +3,7 @@ package pl.sda.weather.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class UserEntity {
@@ -11,6 +12,8 @@ public class UserEntity {
     private Long id;
     private String login;
     private String password;
+    @OneToOne
+    private UserPreferencesEntity userPreferences;
 
     public Long getId() {
         return id;
