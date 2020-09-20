@@ -1,6 +1,7 @@
 package pl.sda.weather;
 
 import pl.sda.weather.dto.WeatherInformation;
+import pl.sda.weather.provider.OpenWeatherMapHttpClient;
 import pl.sda.weather.service.UserService;
 import pl.sda.weather.service.WeatherService;
 
@@ -79,7 +80,8 @@ public class WeatherMain {
 
         String defaultCity = getDefaultCityOfCurrentUser(userService);
         System.out.println("Witaj! Pogoda dla miasta " + defaultCity + " to:");
-        WeatherService weatherService = new WeatherService();
+        OpenWeatherMapHttpClient openWeatherMapHttpClient = new OpenWeatherMapHttpClient();
+        WeatherService weatherService = new WeatherService(openWeatherMapHttpClient);
 
         WeatherInformation weather = weatherService.getWeather(defaultCity);
 

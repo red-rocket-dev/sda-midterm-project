@@ -11,8 +11,8 @@ public class WeatherService {
 
     private OpenWeatherMapHttpClient httpClient;
 
-    public WeatherService() {
-        httpClient = new OpenWeatherMapHttpClient();
+    public WeatherService(OpenWeatherMapHttpClient openWeatherMapHttpClient) {
+        this.httpClient = openWeatherMapHttpClient;
     }
 
     public WindInformation getWind(String city) throws IOException, InterruptedException {
