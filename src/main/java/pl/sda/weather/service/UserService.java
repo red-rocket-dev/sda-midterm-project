@@ -5,7 +5,6 @@ import pl.sda.weather.dao.UserPreferencesDao;
 import pl.sda.weather.model.UserEntity;
 import pl.sda.weather.model.UserPreferencesEntity;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,15 +40,12 @@ public class UserService {
 
 
     public void changeDefaultCityOfCurrentUser(String city) {
-        UserEntity currentUser = currentUser().get();
-        UserPreferencesEntity currentUserPreferences = currentUser.getUserPreferences();
-        currentUserPreferences.setDefaultCity(city);
-        userPreferencesDao.update(currentUserPreferences);
-
-/*        UserEntity userEntity = currentUser().get();
-        userEntity.getUserPreferences().setDefaultCity(city);*/
-        /*currentUser()
-                .ifPresent(user -> user.getUserPreferences().setDefaultCity(city));*/
+        currentUser() //Optional<UserEntity>
+                .map(user -> user.getUserPreferences()) //Optional<UserPreferencesEntity>
+                .ifPresent(preferences -> {
+                    preferences.setDefaultCity(city);
+                    userPreferencesDao.update(preferences);
+                });
     }
 
     public void register(String login, String password) {
