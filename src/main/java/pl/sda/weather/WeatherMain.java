@@ -1,6 +1,7 @@
 package pl.sda.weather;
 
 import pl.sda.weather.dto.WeatherInformation;
+import pl.sda.weather.service.UserService;
 import pl.sda.weather.service.WeatherService;
 
 import java.io.IOException;
@@ -55,10 +56,27 @@ public class WeatherMain {
      * * model bazy danych stopniowo
      * * zewnętrzna baza danych na heroku
      */
-    public static final String QUIT_ACTION = "quit";
+    private static final String QUIT_ACTION = "quit";
+    private static final String USER_1_LOGIN = "user1";
+    private static final String USER_1_PASSWORD = "password1";
+    private static final String USER_2_LOGIN = "user2";
+    private static final String USER_2_PASSWORD = "password2";
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        UserService userService = new UserService();
+        initData(userService);
         Scanner scanner = new Scanner(System.in);
+        String login;
+        String password;
+        do {
+            System.out.println("Podaj login");
+            login = scanner.nextLine();
+            System.out.println("Podaj haslo");
+            password = scanner.nextLine();
+        } while(userService.login(login, password));
+        System.out.println("Witaj uzytkowniku!");
+        System.out.println(login);
+
         System.out.println("Witaj! Podaj miasto do pobrania pogody");
         WeatherService weatherService = new WeatherService();
         String initialCity = scanner.nextLine();
@@ -70,7 +88,7 @@ public class WeatherMain {
         String windMessage = "Wiatr " + weather.getWindInformation().getDegrees() + " " + weather.getWindInformation().getForce();
         System.out.println(windMessage);
 
-        String choice = null;
+        String choice;
         do {
             choice = scanner.nextLine();
             switch (choice) {
@@ -103,5 +121,17 @@ public class WeatherMain {
         } while (!QUIT_ACTION.equals(choice));
 
 
+    }
+
+
+    public static void initData(UserService userService) {
+        createUserIfNotExists(userService, USER_1_LOGIN, USER_1_PASSWORD);
+        createUserIfNotExists(userService, USER_2_LOGIN, USER_2_PASSWORD);
+    }
+
+    private static void createUserIfNotExists(UserService userService, String login, String password) {
+        if (userService.findByLogin(login).isEmpty()) {
+            userService.register(login, password);
+        }
     }
 }

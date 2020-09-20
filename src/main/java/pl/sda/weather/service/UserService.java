@@ -3,8 +3,11 @@ package pl.sda.weather.service;
 import pl.sda.weather.dao.UserDao;
 import pl.sda.weather.model.UserEntity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserService {
     private UserDao userDao;
@@ -24,12 +27,11 @@ public class UserService {
     }
 
     public boolean login(String login, String password) {
-        UserEntity maybeUser = userDao.findByLogin(login);
-        if(maybeUser != null && maybeUser.getPassword().equals(password)) {
-            this.loggedInUser = maybeUser;
-            return true;
-        }
-        return false;
+        List<List<String>> listOfLists = Arrays.asList(Arrays.asList("a", "b", "c"), Arrays.asList("d", "e", "f"));
+        //TODO: lambdy
+        return userDao.findByLogin(login)
+                .filter(user -> !user.getPassword().equals(password))
+                .isPresent();
     }
 
     public void register(String login, String password) {
@@ -43,7 +45,7 @@ public class UserService {
         return this.userDao.findById(id);
     }
 
-    public UserEntity findByLogin(String login) {
+    public Optional<UserEntity> findByLogin(String login) {
         return this.userDao.findByLogin(login);
     }
 

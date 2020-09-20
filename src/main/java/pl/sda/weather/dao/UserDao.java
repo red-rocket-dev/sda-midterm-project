@@ -1,10 +1,12 @@
 package pl.sda.weather.dao;
 
+import pl.sda.weather.exceptions.NotUniqueLoginFound;
 import pl.sda.weather.model.UserEntity;
 import pl.sda.weather.util.EntityManagerUtil;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDao {
     public void save(UserEntity userEntity) {
@@ -29,13 +31,18 @@ public class UserDao {
         return allUsers;
     }
 
-    public UserEntity findByLogin(String login) {
+    public Optional<UserEntity> findByLogin(String login) {
         EntityManager em = EntityManagerUtil.get();
-        UserEntity byLogin = em.createQuery("FROM UserEntity WHERE login=:login", UserEntity.class)
+        List<UserEntity> results = em.createQuery("FROM UserEntity WHERE login=:login", UserEntity.class)
                 .setParameter("login", login)
-                .getSingleResult();
+                .getResultList();
         em.close();
-        return byLogin;
-
+        if(results.size() == 1) {
+            return Optional.of(results.get(0));
+        } else if(results.isEmpty()){
+            return Optional.empty();
+        } else {
+            throw new NotUniqueLoginFound();
+        }
     }
 }
