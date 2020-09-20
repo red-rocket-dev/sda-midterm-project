@@ -32,7 +32,7 @@ Manual:
       2. wywołaj metodę `initData()` na samym początku maina
    3. Przed główną pętlą z menu poproś użytkownika o wprowadzenie loginu i hasła, a następnie użyj metody `login` z `UserService`, jeśli użytkownikowi uda się zalogować wypisz jego login
 7. Ustawienia użytkownika:
-   1. Utwórz encję `pl.sda.weather.model.UserPreferences` i złącz ją odpowiednią relacją z użytkownikiem, powinna mieć pola
+   1. Utwórz encję `pl.sda.weather.model.UserPreferencesEntity` i złącz ją odpowiednią relacją z użytkownikiem, powinna mieć pola
        * id
        * defaultCity -> domyślne miasto, którego pogoda będzie wyświetlana po zalogowaniu
        * defaultAmountOfDaysAhead -> to będzie mówiło czy po zalogowaniu wyświetlamy dzisiejszą prognozę (jeśli pole = 0) czy za x dni

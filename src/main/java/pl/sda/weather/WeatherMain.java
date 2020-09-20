@@ -65,6 +65,8 @@ public class WeatherMain {
     public static void main(String[] args) throws IOException, InterruptedException {
         UserService userService = new UserService();
         initData(userService);
+        userService.login(USER_1_LOGIN, USER_1_PASSWORD);
+        userService.changeDefaultCityOfCurrentUser("Warszawa");
         Scanner scanner = new Scanner(System.in);
         String login;
         String password;
