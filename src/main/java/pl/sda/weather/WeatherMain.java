@@ -65,8 +65,6 @@ public class WeatherMain {
     public static void main(String[] args) throws IOException, InterruptedException {
         UserService userService = new UserService();
         initData(userService);
-        userService.login(USER_1_LOGIN, USER_1_PASSWORD);
-        userService.changeDefaultCityOfCurrentUser("Warszawa");
         Scanner scanner = new Scanner(System.in);
         String login;
         String password;
@@ -75,14 +73,15 @@ public class WeatherMain {
             login = scanner.nextLine();
             System.out.println("Podaj haslo");
             password = scanner.nextLine();
-        } while(userService.login(login, password));
+        } while (!userService.login(login, password));
         System.out.println("Witaj uzytkowniku!");
         System.out.println(login);
 
-        System.out.println("Witaj! Podaj miasto do pobrania pogody");
+        String defaultCity = getDefaultCityOfCurrentUser(userService);
+        System.out.println("Witaj! Pogoda dla miasta " + defaultCity + " to:");
         WeatherService weatherService = new WeatherService();
-        String initialCity = scanner.nextLine();
-        WeatherInformation weather = weatherService.getWeather(initialCity);
+
+        WeatherInformation weather = weatherService.getWeather(defaultCity);
 
         System.out.println("Temperatura " + weather.getTemperature());
         System.out.println("Wilgotnosc " + weather.getHumidity());
@@ -95,21 +94,28 @@ public class WeatherMain {
             choice = scanner.nextLine();
             switch (choice) {
                 case "temperature":
-                    System.out.println("Podaj miasto");
-                    String city = scanner.nextLine();
-                    System.out.println(weatherService.getTemperature(city));
+                    defaultCity = getDefaultCityOfCurrentUser(userService);
+                    System.out.println(weatherService.getTemperature(defaultCity));
                     break;
                 case "wind":
+                    defaultCity = getDefaultCityOfCurrentUser(userService);
+                    System.out.println(weatherService.getWind(defaultCity).getForce());
                     break;
                 case "humidity":
+                    defaultCity = getDefaultCityOfCurrentUser(userService);
+                    System.out.println(weatherService.getHumidity(defaultCity));
                     break;
                 case "pressure":
+                    defaultCity = getDefaultCityOfCurrentUser(userService);
+                    System.out.println(weatherService.getPressure(defaultCity));
                     break;
-                case "settings":
-                    //strategia formatowania danych
-                    //strategia pobierania danych (z jakich serwisow)
-                    //domyslne miasto
-                    //domyslnie czy wyswietlamy date dla dzisiaj czy jutra
+                case "change city":
+                    String newDefaultCity = scanner.nextLine();
+                    userService.changeDefaultCityOfCurrentUser(newDefaultCity);
+                    break;
+                case "change days":
+                    String newAmountOfDays = scanner.nextLine();
+                    userService.changeDefaultAmountOfDaysOfCurrentUser(Long.valueOf(newAmountOfDays));
                     break;
                 case "logging history":
                     break;
@@ -123,6 +129,12 @@ public class WeatherMain {
         } while (!QUIT_ACTION.equals(choice));
 
 
+    }
+
+    private static String getDefaultCityOfCurrentUser(UserService userService) {
+        return userService.currentUser()
+                .map(user -> user.getUserPreferences().getDefaultCity())
+                .orElseThrow(() -> new RuntimeException("Niepoprawny stan aplikacji!"));
     }
 
 
