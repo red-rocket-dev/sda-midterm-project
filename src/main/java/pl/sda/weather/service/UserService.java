@@ -48,6 +48,15 @@ public class UserService {
                 });
     }
 
+    public void changeDefaultAmountOfDaysOfCurrentUser(Long days) {
+        currentUser() //Optional<UserEntity>
+                .map(user -> user.getUserPreferences()) //Optional<UserPreferencesEntity>
+                .ifPresent(preferences -> {
+                    preferences.setDefaultAmountOfDaysAhead(days);
+                    userPreferencesDao.update(preferences);
+                });
+    }
+
     public void register(String login, String password) {
         UserEntity userEntity = new UserEntity();
         UserPreferencesEntity userPreferencesEntity = new UserPreferencesEntity();

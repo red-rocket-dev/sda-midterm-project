@@ -47,7 +47,9 @@ Manual:
    2. Dodaj metodę `pl.sda.weather.service.UserService.changeDefaultDays(Long days)` -> pobierze aktualnego użytkownika, i zmieni domyślną ilosć dni na przekazaną w argumencie
    3. Dodaj obsługę zmiany ustawień w Mainie, wystarczy, że użyjesz nowych metod po wpisaniu przez użytkownika `settings` (dokładniej jak ma to działać w ogólnym opisie aplikacji). Pamiętaj, żeby `Scanner` używać tylko w main!
    4. Przetestuj działanie
-9. Historia logowań
+9. Utwórz testy dla:
+   1. WeatherService
+10. Historia logowań
    1. Dodaj encję `pl.sda.weather.model.LoginEventEntity`, ustaw ją w odpowiedniej relacji z `UserEntity`, a w niej pola:
       * `shownMessage` -> zawiera wiadomość pokazaną użytkownikowi po zalogowaniu
       * `time` -> zawiera dokładny czas w którym użytkownik się zalogował
@@ -58,4 +60,4 @@ Manual:
       3. `void registerEvent(UserEntity user, String message)` -> zapisze do bazy danych nowy wpis podpięty do użytkownika `user` o aktualnym czasie i `shownMessage` z argumentu
    4. Po zalogowaniu się użytkownika w main wyświetl czas ostatniego wcześniejszego poprawnego logowania korzystając z metody `findLast`
    5. Następnie wywołaj `registerEvent`
-10. Zintegruj aplikację z conajmniej jeszcze jednym API, tak jak to wcześniej sobie pokazaliśmy (pewnie to zrobimy trochę razem znowu)
+11. Zintegruj aplikację z conajmniej jeszcze jednym API, tak jak to wcześniej sobie pokazaliśmy (pewnie to zrobimy trochę razem znowu)
