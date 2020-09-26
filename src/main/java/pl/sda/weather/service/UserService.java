@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserService {
+    public static final String DEFAULT_CITY = "Wroclaw";
     private UserDao userDao;
     private UserPreferencesDao userPreferencesDao;
 
@@ -58,10 +59,10 @@ public class UserService {
     }
 
     public void register(String login, String password) {
-        UserEntity userEntity = new UserEntity();
         UserPreferencesEntity userPreferencesEntity = new UserPreferencesEntity();
-        userPreferencesEntity.setDefaultCity("Katowice");
+        userPreferencesEntity.setDefaultCity(DEFAULT_CITY);
         userPreferencesEntity.setDefaultAmountOfDaysAhead(0L);
+        UserEntity userEntity = new UserEntity();
         userEntity.setLogin(login);
         userEntity.setPassword(password);
         userEntity.setUserPreferences(userPreferencesEntity);
