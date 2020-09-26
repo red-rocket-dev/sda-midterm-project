@@ -1,5 +1,7 @@
 package pl.sda.weather;
 
+import pl.sda.weather.dao.UserDao;
+import pl.sda.weather.dao.UserPreferencesDao;
 import pl.sda.weather.dto.WeatherInformation;
 import pl.sda.weather.provider.OpenWeatherMapHttpClient;
 import pl.sda.weather.service.UserService;
@@ -64,7 +66,7 @@ public class WeatherMain {
     private static final String USER_2_PASSWORD = "password2";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        UserService userService = new UserService();
+        UserService userService = new UserService(new UserDao(), new UserPreferencesDao());
         initData(userService);
         Scanner scanner = new Scanner(System.in);
         String login;

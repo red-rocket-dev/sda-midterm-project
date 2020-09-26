@@ -3,6 +3,7 @@ package pl.sda.weather.service;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
+import pl.sda.weather.dto.WeatherInformation;
 import pl.sda.weather.dto.WindInformation;
 import pl.sda.weather.provider.OpenWeatherMapHttpClient;
 import pl.sda.weather.provider.model.OpenWeatherResponse;
@@ -23,6 +24,11 @@ class WeatherServiceTest {
     private static final int PRESSURE = 15;
     private static final int HUMIDITY = 22;
     private static final int TEMPERATURE = 11;
+
+
+    //givenUserExistsWhenLoginThenAuthorize
+
+
 
 
     @Test
@@ -87,6 +93,41 @@ class WeatherServiceTest {
         // <asercje (sprawdzamy, czy mamy oczekiwany rezultat testu)>
     }
 
+    @Test
+    public void givenWeatherAvailableWhenGetWeatherThenReturnProperResponse() throws IOException, InterruptedException {
+        //given
+        // <tutaj ustawiamy sobie srodowisko testowe>
+        OpenWeatherMapHttpClient httpClientMock = mock(OpenWeatherMapHttpClient.class);
+        when(httpClientMock.getWeather(any())).thenReturn(createFullWeatherResponse());
+        WeatherService weatherService = new WeatherService(httpClientMock);
+        //when
+        // <tutaj wywolujemy funkcje, ktora chcemy testowac>
+        WeatherInformation weatherInformation = weatherService.getWeather("Katowice");
+        //then
+        assertThat(weatherInformation.getHumidity()).isEqualTo(HUMIDITY);
+        assertThat(weatherInformation.getTemperature()).isEqualTo(TEMPERATURE);
+        assertThat(weatherInformation.getPressure()).isEqualTo(PRESSURE);
+        WindInformation windInformation = weatherInformation.getWindInformation();
+        assertThat(windInformation.getForce()).isEqualTo(WIND_SPEED);
+        assertThat(windInformation.getDegrees()).isEqualTo(WIND_DEG);
+
+        // <asercje (sprawdzamy, czy mamy oczekiwany rezultat testu)>
+    }
+
+
+    private OpenWeatherResponse createFullWeatherResponse() {
+        OpenWeatherResponse resp = new OpenWeatherResponse();
+        WeatherInfo weatherInfo = new WeatherInfo();
+        weatherInfo.setHumidity(HUMIDITY);
+        weatherInfo.setTemp(TEMPERATURE);
+        weatherInfo.setPressure(PRESSURE);
+        Wind wind = new Wind();
+        wind.setSpeed(WIND_SPEED);
+        wind.setDeg(WIND_DEG);
+        resp.setWind(wind);
+        resp.setMain(weatherInfo);
+        return resp;
+    }
 
     private OpenWeatherResponse createWindResponse() {
         OpenWeatherResponse resp = new OpenWeatherResponse();

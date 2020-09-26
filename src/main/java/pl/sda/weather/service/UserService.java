@@ -14,9 +14,9 @@ public class UserService {
 
     private UserEntity loggedInUser = null;
 
-    public UserService() {
-        this.userDao = new UserDao();
-        this.userPreferencesDao = new UserPreferencesDao();
+    public UserService(UserDao userDao, UserPreferencesDao userPreferencesDao) {
+        this.userDao = userDao;
+        this.userPreferencesDao = userPreferencesDao;
     }
 
     public void logout() {
